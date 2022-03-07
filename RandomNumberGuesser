@@ -1,0 +1,104 @@
+/*
+ * Class: CMSC203 
+ * Instructor: Ahmed Tarek
+ * Description: The RNG class produces a random value and feeds it into the main method
+ *  of the RandomNumberGuesser class. From there the RandomNumberGuesser class goes on to 
+ *  ask the user to guess within a narrowing range of numbers. The user will find out how 
+ *  many tries it took them to find the correct number as well as having the opportunity to 
+ *  play again.
+ * Due: 2/22/2022
+ * Platform/compiler: Eclipse
+ * I pledge that I have completed the programming assignment independently.
+   I have not copied the code from a student or any source.
+   I have not given my code to any student.
+   Print your Name here: Erfan Khosravi
+*/
+
+import java.util.Scanner;
+public class RandomNumberGuesser {
+	public static void main (String[] args)
+	{
+		int randNum, lowGuess, highGuess, counter;
+		int userInterest;
+		int nextGuess;
+		//These are variables that will be used throughout the program that are declared here
+		Scanner keyboard = new Scanner (System.in);
+		//This is the loop that will define the game and allow multiple games
+		do {
+		//This will generate a random value that comes from the RNG class in the variable n.
+		randNum=RNG.rand(100);
+		//Welcoming the user and introducing the game.
+		System.out.println("Welcome, this is a random number generator game.\n"
+				+ "You will need a maximum of 7 guesses to guess the random number between 0 and 99,\n"
+				+ "if you employ the strategy of cutting your guess in half starting from your first guess.\n"
+				+ "Each guess will narrow down the location of the random number as"
+				+ " either higher or lower than the hidden number."
+				+ "\nHowever, pick numbers within the range that is explicitly made clear. "
+				+ "\nOtherwise, you will lose the progress you've made in narrowing it down.");
+		//starting the first guess and initializing the values of the initial game conditions.
+		nextGuess = keyboard.nextInt();
+		lowGuess=0;
+		highGuess=100;
+		counter=1;
+		//This is the loop that will continue until the correct number is guessed.
+		while(nextGuess!=randNum)
+		{
+			//This is the input validation loop.
+			while(nextGuess<0||nextGuess>=100)
+			{
+				System.out.println("This is not in the correct range of possible answers. Your guess must be between 0 and 99!");
+				nextGuess = keyboard.nextInt();
+			}
+			//This is the when guessed too high sequence.
+			if (nextGuess>randNum&&nextGuess<100)
+			{
+				System.out.println("Your guess is too high! Try another guess "
+						+ "between "+lowGuess+" and "+ (nextGuess-1) +"!");
+				highGuess=nextGuess;
+				nextGuess = keyboard.nextInt();
+			}
+			//This is the when guessed too low sequence.
+			else if (nextGuess<randNum&&nextGuess>=0)
+			{
+				System.out.println("Your guess is too low! Try another guess "
+						+ "between "+(nextGuess+1)+" and "+ (highGuess-1) +"!");
+				lowGuess=nextGuess+1;
+				nextGuess = keyboard.nextInt();
+			/*This while loop makes sure the range that is specified already stays 
+			 * the same range and doesn't move backwards in an input not in the specified range.*/
+			while ((nextGuess<lowGuess&&nextGuess>=0)||(nextGuess>(highGuess-1)&&nextGuess<100))
+			{
+				System.out.println("Error, you need to pick a number in the specified range.\nTry another guess "
+						+"between " +(lowGuess)+ " and "+ (highGuess-1) +"!");
+				nextGuess = keyboard.nextInt();
+			}
+			}
+		//This is what counts in how many guesses you got the right answer.
+		counter+=1;
+		}
+		//This asks if another round is desired to be played.
+		System.out.println("Congratulations you have guessed correctly after "+counter+ " tries!\n"
+				+"The correct answer is indeed "+randNum+".");
+	
+		System.out.println("Would you like to play another round? Please answer '1' if you would like to play again:\n"
+				+ "(or any other integer if you don't want to play)");
+		userInterest=keyboard.nextInt();
+		}while (userInterest==1);
+		keyboard.close();
+		System.out.println(" Class: CMSC203 \n"
+				+ "  Instructor: Ahmed Tarek\n"
+				+ "  Description: The RNG class produces a random value and feeds it into the main method\n"
+				+ "  of the RandomNumberGuesser class. From there the RandomNumberGuesser class goes on to \n"
+				+ "  ask the user to guess within a narrowing range of numbers. The user will find out how \n"
+				+ "  many tries it took them to find the correct number as well as having the opportunity to \n"
+				+ "  play again.\n"
+				+ "  Due: 2/22/2022\n"
+				+ "  Platform/compiler: Eclipse\n"
+				+ "  I pledge that I have completed the programming assignment independently.\n"
+				+ "  I have not copied the code from a student or any source.\n"
+				+ "  I have not given my code to any student.\n"
+				+ "  Print your Name here: Erfan Khosravi");
+		}
+}
+
+
